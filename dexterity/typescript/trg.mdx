@@ -1,0 +1,72 @@
+---
+title: 'Trader Risk Group'
+description: 'What is a TRG and how to create one'
+icon: 'code'
+---
+
+## What is a TRG?
+Trader Risk Groups (TRGs) are a component of the Dexterity protocol used to track the state of a trader's orders, 
+positions, and deposits in a given `MarketProductGroup`. In other words, TRGs are individual accounts that hold and 
+manage the risk information associated with a specific trader within the Dexterity framework.
+
+By keeping track of a trader's risk information, TRGs help ensure that the trader's actions remain within acceptable 
+risk levels set by the protocol. This includes monitoring the trader's margin requirements, collateralization, and 
+overall account health. If a trader's actions were to exceed the risk limits defined by the Dexterity protocol, the 
+Trader Risk Group would prevent those actions from being executed, protecting the overall stability and security of 
+the protocol.
+
+## Creating a TRG
+TRGs are created under a specified MPG, and to create one we simply have to call the `createTrg()` async method from an initiated
+instance of the `manifest`, and pass in a `PublicKey` of the desired MPG we want to create a TRG for.
+
+For this example we're going to airdrop our wallet some devnet SOL to be able to create/mint a TRG. [Devnet Faucet](/dexterity/faucet)
+
+<Tip>Creating a TRG is costs ~0.515 SOL in rent, you can get back your rent SOL after closing/destroying your TRG account</Tip>
+
+```ts index.ts
+...
+    const mpgPubkey = new web3.PublicKey('HyWxreWnng9ZBDPYpuYugAfpCMkRkJ1oz93oyoybDFLB') // Devnet
+
+    async function createTrg () {
+        const trg = await manifest.createTrg(mpgPubkey)
+        console.log('\nTRG: ', trg.toBase58())
+    }
+
+    createTrg()
+```
+
+<Card title="Example Result">
+```bash
+TRG:  4NmA4htBxmDpxM1TsHwqz5R7LB98wan22WQJTovGAHra
+```
+</Card>
+
+<Accordion title="Code for this page">
+```ts index.ts
+import * as web3 from '@solana/web3.js'
+import dexterityTs from '@hxronetwork/dexterity-ts'
+import { Wallet } from '@project-serum/anchor'
+const dexterity = dexterityTs
+
+const secretUnit8Array = new Uint8Array([]) // secret key array
+const keypair = web3.Keypair.fromSecretKey(secretUnit8Array);
+const wallet = new Wallet(keypair)
+
+const rpcUrl = "https://devnet.helius-rpc.com/?api-key=" // devnet rpc
+
+async function main() {
+    const manifest = await dexterity.getManifest(rpcUrl, true, wallet)
+
+    const mpgPubkey = new web3.PublicKey('HyWxreWnng9ZBDPYpuYugAfpCMkRkJ1oz93oyoybDFLB') // Devnet
+
+    async function createTrg () {
+        const trg = await manifest.createTrg(mpgPubkey)
+        console.log('\nTRG: ', trg.toBase58())
+    }
+
+    await createTrg()
+}
+
+main()
+```
+</Accordion>

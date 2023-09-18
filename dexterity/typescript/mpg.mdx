@@ -1,0 +1,236 @@
+---
+title: 'Market Product Groups'
+description: 'What are MPGs, and how to fetch information on MPGs'
+icon: 'code'
+---
+
+## About MPGs
+
+coming soon...
+
+## Fetching MPGs
+How to fetch for all MPGs on the desired network (mainnet, devnet, testnet)
+
+Let's create a new function insde of our `main()` function called `getMPGs()`, in this function we will be fetching for all
+the MPGs on a desired network, and their products
+
+```ts index.ts
+...
+    async function getMPGs() {
+        const mpgs = Array.from(manifest.fields.mpgs.values());
+    
+```
+
+After fetching all of the MPGs we can loop through them to see what products each has:
+
+```ts index.ts
+...
+        for (const { pubkey, mpg, orderbooks } of mpgs) {
+            console.log('\nMPG: ', pubkey.toBase58())
+            
+            for (const [_, { index, product }] of dexterity.Manifest.GetProductsOfMPG(mpg)) {
+                const meta = dexterity.productToMeta(product);
+                console.log('Name: ', dexterity.bytesToString(meta.name).trim());
+                console.log('productIndex: ', index);
+            }
+        }
+    }
+
+    getMPGs()
+}
+
+main()
+```
+<Tip>You can use the `npx ts-node fileName.ts` command to run your TS files without having to manually pre-compile to JS</Tip>
+
+<AccordionGroup>
+<Accordion title="Example Mainnet Response">
+
+```bash
+MPG:  BCELFY2K2hFkD44UDs5TWnexkx6d4H4DLswYPExg2etD
+Name:  BTCUSD-PERP
+productIndex:  0
+Name:  BTCUSD-31-MAR-23
+productIndex:  1
+Name:  BTCUSD-30-JUN-23
+productIndex:  2
+Name:  BTCUSD-30-SEP-22
+productIndex:  3
+Name:  BTCUSD-30-DEC-22
+productIndex:  4
+Name:  BTCUSD-02-SEP-22
+productIndex:  5
+Name:  BTCUSD-29-JUL-22
+productIndex:  7
+Name:  BTCUSD-26-AUG-22
+productIndex:  8
+Name:  BTCUSD-27-JAN-23
+productIndex:  9
+Name:  BTCUSD-19-AUG-22
+productIndex:  10
+
+MPG:  8oULhEPCSqDbdQ3YQLFgC2Q2PUFGPhycsktdvgcHvBA
+Name:  BTCUSD-PERP
+productIndex:  0
+
+MPG:  CySK1pFrhnrA8r2eb6SmsWuSFdXeESkFBbtiLHiSV1L8
+Name:  BTCUSD-PERP
+productIndex:  0
+Name:  BTCUSD-31-MAR-23
+productIndex:  1
+
+MPG:  3gPoRMbTgDSMAU2CGRhTKNCzgZVNLWV6B1VW5sdU9mGK
+
+MPG:  7BYv6qrT2NSWYrMQ7Wuf8Q8Qr5DUoVm1bJ7RkwVRNs6u
+
+MPG:  HiCy6vzuN3yLXD3z35D6nV7bzNLcyrvGLf3uSKuutSLo
+Name:  BTCUSD-PERP
+productIndex:  0
+Name:  BTCUSD-31-MAR-23
+productIndex:  1
+Name:  BTCUSD-30-JUN-23
+productIndex:  2
+Name:  BTCUSD-29-SEP-23
+productIndex:  3
+Name:  BTCUSD-29-DEC-23
+productIndex:  5
+Name:  COMBO+H23-M23
+productIndex:  8
+Name:  COMBO+M23-U23
+productIndex:  10
+
+MPG:  4cKB5xKtDpv4xo6ZxyiEvtyX3HgXzyJUS1Y8hAfoNkMT
+Name:  BTCUSD-PERP
+productIndex:  0
+Name:  ETHUSD-PERP
+productIndex:  1
+Name:  SOLUSD-PERP
+productIndex:  2
+Name:  ETH0D230918
+productIndex:  5
+Name:  BITCOIN0D230918
+productIndex:  6
+
+MPG:  9khC6DyhdUiKAFkSV6sUKphBMr2H3JtuWWbNMd1tejdg
+```
+
+</Accordion>
+
+<Accordion title="Example Devnet Response">
+
+```bash
+MPG:  EV86swnHvuEoKvxdy7KtDZDpaK339mxnBbqgFTrVv8Ss
+Name:  BTCUSD-PERP
+productIndex:  0
+Name:  BTCUSD-31-MAR-23
+productIndex:  1
+Name:  BTCUSD-30-JUN-23
+productIndex:  2
+Name:  BTCUSD-29-SEP-23
+productIndex:  3
+Name:  BTCUSD-30-DEC-22
+productIndex:  4
+Name:  BTCUSD-4-NOV-22
+productIndex:  5
+
+MPG:  HyWxreWnng9ZBDPYpuYugAfpCMkRkJ1oz93oyoybDFLB
+Name:  BTCUSD-PERP
+productIndex:  0
+Name:  BTCUSD-28-JUN-24
+productIndex:  1
+Name:  BTCUSD-30-JUN-23
+productIndex:  2
+Name:  BTCUSD-29-MAR-24
+productIndex:  5
+Name:  BTCUSD-29-SEP-23
+productIndex:  6
+Name:  BTCUSD-27-OCT-23
+productIndex:  7
+Name:  BTC-240329
+productIndex:  8
+Name:  BTC-240628
+productIndex:  9
+Name:  BTCUSD-28-APR-23
+productIndex:  10
+Name:  BTCUSD-29-DEC-23
+productIndex:  11
+Name:  BTC-240927
+productIndex:  12
+Name:  BTC-231229
+productIndex:  13
+Name:  BTC-230929
+productIndex:  16
+Name:  BTC-231027
+productIndex:  17
+Name:  BTC-230922
+productIndex:  18
+
+MPG:  5qaHNo3iHmirp3GfdVvKfuTW8wczCErcUf6VU4fYAw1n
+Name:  BTCUSD-PERP
+productIndex:  0
+Name:  BTCUSD-31-MAR-23
+productIndex:  1
+Name:  BTCUSD-30-JUN-23
+productIndex:  2
+Name:  BTCUSD-29-SEP-23
+productIndex:  3
+Name:  BTCUSD-30-DEC-22
+productIndex:  4
+Name:  BTCUSD-4-NOV-22
+productIndex:  5
+Name:  BTCUSD-11-NOV-22
+productIndex:  6
+Name:  BTCUSD-25-NOV-22
+productIndex:  7
+
+MPG:  B2cUWSkHm6BoWPVaTVRrVuy8dE4WmA5to6LkZw7LWHAz
+```
+
+</Accordion>
+</AccordionGroup>
+
+<CardGroup cols={1}>
+<Card title="Main Mainnet MPG">
+`HyWxreWnng9ZBDPYpuYugAfpCMkRkJ1oz93oyoybDFLB`
+</Card>
+<Card title="Main Devnet MPG">
+`4cKB5xKtDpv4xo6ZxyiEvtyX3HgXzyJUS1Y8hAfoNkMT`
+</Card>
+</CardGroup>
+
+<Accordion title="Code for this page">
+```ts index.ts
+import * as web3 from '@solana/web3.js'
+import dexterityTs from '@hxronetwork/dexterity-ts'
+import { Wallet } from '@project-serum/anchor'
+const dexterity = dexterityTs
+
+const secretUnit8Array = new Uint8Array([]) // secret key array
+const keypair = web3.Keypair.fromSecretKey(secretUnit8Array);
+const wallet = new Wallet(keypair)
+
+const rpcUrl = "https://devnet.helius-rpc.com/?api-key=" // devnet rpc
+
+async function main() {
+    const manifest = await dexterity.getManifest(rpcUrl, true, wallet)
+
+    async function getMPGs() {
+        const mpgs = Array.from(manifest.fields.mpgs.values());
+
+        for (const { pubkey, mpg, orderbooks } of mpgs) {
+            console.log('\nMPG: ', pubkey.toBase58())
+
+            for (const [_, { index, product }] of dexterity.Manifest.GetProductsOfMPG(mpg)) {
+                const meta = dexterity.productToMeta(product);
+                console.log('Name: ', dexterity.bytesToString(meta.name).trim());
+                console.log('productIndex: ', index);
+            }
+        }
+    }
+
+    getMPGs()
+}
+
+main()
+```
+</Accordion>

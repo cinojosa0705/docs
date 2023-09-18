@@ -1,0 +1,147 @@
+---
+title: 'Deposit & Withdraw'
+description: 'How to Deposit & Withdraw to/from a TRG'
+icon: 'code'
+---
+
+## Initiating Trader()
+The `Trdaer` is a dexterity interface that allows developers to interact with TRGs
+
+To initiate the Trader interface you need a `manifest` and your previously created TRG in `PublicKey` format
+
+After which you need to either call the `connect()` or `update()` methods in order to intialize all the related trader accounts
+
+`connect(handleStream, handleStart)` -> sets up a websocket that perpetually updates the state of your trader instance
+
+`update()` -> one time update to your trader instance
+
+```ts index.ts
+...
+    // remember to use yours, it won't work with mine!
+    const trgPubkey = new web3.PublicKey('GbQ7ziWGLnCCbKnVdCrdYBa236Hj7NzdLJjSQUinpWYF') // Devnet 
+    
+    const trader = new dexterity.Trader(manifest, trgPubkey)
+
+    await trader.connect(
+        () => {
+            console.log('updated 🫡')
+            const balance = Number(trader.getNetCash())
+            console.log('Balance: $', balance.toLocaleString())
+        },
+        () => {
+            console.log('started 🔥') 
+            const balance = Number(trader.getNetCash())
+            console.log('Balance: $', balance.toLocaleString())
+        }
+    )
+```
+
+## Depositing & Withdrawing
+To deposit/withdraw into your TRG through the `Trader` interface it's fairly simple, all you need to use is the 
+`deposit()`/`withdraw()` methods from the `Trader` interface instance
+
+For this example we're going to airdrop our wallet some devnet UXDC to be able to deposit/withdra to/from our TRG using the
+`Trader` interface. [Devnet Faucet](/dexterity/faucet)
+
+`deposit(amount, callbacks)`
+
+`withdraw(amount)`
+
+In both cases `amount` has to be of `Fractional` type, `Fractional` is a `dexterity` data type that represents numbers using a 
+mantissa and an exponent, used for high precision.
+
+```ts index.ts
+...
+    const amount = 10
+
+    const amountFrac = dexterity.Fractional.New(amount, 0)
+
+    await trader.deposit(amountFrac, NaN).then(() => {
+        console.log(`\n\nDeposited ${amount} UXDC\n\n`)
+    })
+    await trader.withdraw(amountFrac).then(() => {
+        console.log(`\n\nWithdrew ${amount} UXDC\n\n`)
+    })
+```
+
+<Accordion title="Example Response">
+```bash
+...
+Balance: $ 0
+updated 🫡
+Balance: $ 0
+updated 🫡
+Balance: $ 10
+updated 🫡
+Balance: $ 10
+
+Deposited 10 UXDC
+
+tradersVaultATA: C69oDEdrG7V64EuSiRcgnubN6ECuF1dstZQNt36Lwh7C vaultNotMint: HLzQZ9DndaXkrwfwq8RbZFsDdSQ91Hufht6ekBSmfbQq capitalLimits: 86V5ZKCjUzabYh7CmkRovpGxE9AKooeU6PyC4WdpyUJK
+
+Withdrew 10 UXDC
+
+updated 🫡
+Balance: $ 10
+updated 🫡
+Balance: $ 10
+updated 🫡
+Balance: $ 0
+updated 🫡
+Balance: $ 0
+...
+```
+</Accordion>
+
+<Accordion title="Code for this page">
+```ts index.ts
+import * as web3 from '@solana/web3.js'
+import dexterityTs from '@hxronetwork/dexterity-ts'
+import { Wallet } from '@project-serum/anchor'
+const dexterity = dexterityTs
+
+const secretUnit8Array = new Uint8Array([]) // secret key array
+const keypair = web3.Keypair.fromSecretKey(secretUnit8Array);
+const wallet = new Wallet(keypair)
+
+const rpcUrl = "https://devnet.helius-rpc.com/?api-key=" // devnet rpc
+
+async function main() {
+    const manifest = await dexterity.getManifest(rpcUrl, true, wallet)
+
+    // remember to use yours, it won't work with mine!
+    const trgPubkey = new web3.PublicKey('GbQ7ziWGLnCCbKnVdCrdYBa236Hj7NzdLJjSQUinpWYF') // Devnet 
+    
+    const trader = new dexterity.Trader(manifest, trgPubkey)
+
+    await trader.connect(
+        () => {
+            console.log('updated 🫡')
+            const balance = Number(trader.getNetCash())
+            console.log('Balance: $', balance.toLocaleString())
+        },
+        () => {
+            console.log('started 🔥') 
+            const balance = Number(trader.getNetCash())
+            console.log('Balance: $', balance.toLocaleString())
+        }
+    )
+
+    const amount = 10
+
+    const amountFrac = dexterity.Fractional.New(amount, 0)
+
+    await trader.deposit(amountFrac, NaN).then(() => {
+        console.log(`\nDeposited ${amount} UXDC\n`)
+    })
+    await trader.withdraw(amountFrac).then(() => {
+        console.log(`\nWithdrew ${amount} UXDC\n`)
+    })
+}
+
+main()
+```
+</Accordion>
+
+
+

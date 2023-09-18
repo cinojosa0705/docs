@@ -1,0 +1,66 @@
+---
+title: 'Manifest'
+description: 'What is the Manifest, and how to use it'
+icon: 'code'
+---
+
+## What is the Manifest?
+
+coming soon...
+
+## Imports
+At the top of your file import all our needed dependencies:
+```ts index.ts
+import * as web3 from '@solana/web3.js'
+import dexterityTs from '@hxronetwork/dexterity-ts'
+import { Wallet } from '@project-serum/anchor'
+const dexterity = dexterityTs
+```
+
+## Initiate Local Wallet
+```ts index.ts
+...
+const secretUnit8Array = new Uint8Array([]) // secret key array
+const keypair = web3.Keypair.fromSecretKey(secretUnit8Array);
+const wallet = new Wallet(keypair)
+```
+
+## Set your RPC
+For the following examples we will be using the Solana Devnet
+```ts index.ts
+...
+const rpcUrl = `https://devnet.helius-rpc.com/?api-key=` // devnet rpc
+```
+
+## Fetch for the Manifest
+To fetch for the Manifest you'll need to use the aync `getManifest()` method from the `dexterity` instance, to do this let's 
+create an async function called `main()`
+```ts index.ts
+...
+async function main() {
+    const manifest = await dexterity.getManifest(rpcUrl, true, wallet)
+}
+```
+
+From the manifest we'll be able to fetch many points of data from MPGs/Products/Markets on Dexterity
+
+<Accordion title="Code for this page">
+```ts index.ts
+import * as web3 from '@solana/web3.js'
+import dexterityTs from '@hxronetwork/dexterity-ts'
+import { Wallet } from '@project-serum/anchor'
+const dexterity = dexterityTs
+
+const secretUnit8Array = new Uint8Array([]) // secret key array
+const keypair = web3.Keypair.fromSecretKey(secretUnit8Array);
+const wallet = new Wallet(keypair)
+
+const rpcUrl = "https://devnet.helius-rpc.com/?api-key=" // devnet rpc
+
+async function main() {
+    const manifest = await dexterity.getManifest(rpcUrl, true, wallet)
+}
+
+main()
+```
+</Accordion>

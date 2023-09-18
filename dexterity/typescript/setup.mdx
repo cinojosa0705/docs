@@ -1,0 +1,88 @@
+---
+title: 'Setup'
+description: 'Initial setup to get started building with the Dexterity TS SDK'
+icon: 'code'
+---
+
+## RPC
+The first thing you're going to be needing is a Solana RPC, ideally for your production implementation you'd look for a 
+very performant RPC.
+
+Here's a list of a few, very trusted, Solana RPC providers:
+
+<CardGroup>
+
+<Card 
+title="Helius" 
+icon="sun"
+href="https://www.helius.dev/"
+>
+</Card>
+<Card 
+title="Chainstack" 
+icon="link"
+href="https://chainstack.com/"
+>
+</Card>
+<Card 
+title="Triton" 
+icon="triangle"
+href="https://triton.one/"
+>
+</Card>
+<Card 
+title="Quicknode" 
+icon="bolt"
+href="https://www.quicknode.com/"
+>
+</Card>
+<Card 
+title="Alchemy" 
+icon="coin"
+href="https://www.alchemy.com/"
+>
+</Card>
+
+</CardGroup>
+
+For a quick setup we recomend using [Helius](https://www.helius.dev/), since they have an easy to access free tier with both Devnet & Mainnet RPCs.
+
+(Just keep in mind that since it's free some of it's functionalities might be limited)
+
+## Enviroment & Dependencies 
+To set up your **typescript enviroment** simply follow the following:
+
+1. Make sure you have **node** installed. [Install Node](https://nodejs.org/en)
+
+```bash
+# Update npm to the latest version
+npm install -g npm
+
+# Install TypeScript globally
+npm install -g typescript
+
+# Verify installation
+tsc --version
+```
+
+2. Create a new **typescript project**:
+```bash
+mkdir dext-project
+cd dext-project
+
+# Initialize a new Node.js project
+npm init -y
+
+# Create a tsconfig.json for TypeScript options
+tsc --init
+```
+
+3. Install all the needed dependencies
+
+    1. `@solana/web3.js` -> Solana JS Library
+    2. `@hxronetwork/dexterity-ts` -> Dexterity TS SDK
+    3. `@project-serum/anchor` -> Project Sereum Library
+
+```bash
+npm install @solana/web3.js @hxronetwork/dexterity-ts @project-serum/anchor
+```
