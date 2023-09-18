@@ -1,0 +1,45 @@
+---
+title: 'Intro to Dexterity'
+description: 'Fully on-chain. Scallable. Decentralized. Derivatives Protocol Network.'
+---
+
+## Overview
+Dexterity protocol is an open-source collection of smart contracts that provides the exchange, risk, 
+and settlement functions needed to launch and maintain any type of derivatives contract market such as perps,
+expiring futures, and options.
+
+Read the [whitepaper](https://plum-absolute-buzzard-437.mypinata.cloud/ipfs/QmQTfVoV13wRk2tQqhjTHVNXEZZRtEoH1HLVV64S1g51UZ) 
+to learn more
+
+## SpandeX
+
+SpandeX is Hxro Network’s dynamic, on-chain, real-time portfolio-based risk and margin engine.
+
+The design considerations for SpandeX were as follows:
+1. Portfolio-based margin and risk
+2. Works in real-time
+3. Meets the standards of CeFi incumbents
+4. Robust liquidity and customer protections
+
+You cannot run a capital-efficient marketplace on-chain without true portfolio margining, and 
+to do that on-chain is no small feat.
+
+### Portfolio Margin vs Isolated Margin
+
+Suppose you had two highly correlated positions in your portfolio – a long SOL perp and a short SOL future against it.
+In an isolated risk model, you are being margined as if each position is independent of the other.  
+
+In a portfolio approach (which is what SpandeX employs). your risk is measured based on the composition of your portfolio.  
+
+So in this example of having a long SOL perp and a short SOL future, you would be margined based on the spread which immediately could provide as much as 90% margin relief for the user, resulting a more efficient use of risk capital. 
+
+Another [example](https://3431599759-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FnBRfy9TZFugEQMxYK4Hk%2Fuploads%2FPqA70mrlPrZihd4zSrAx%2FScreen%20Shot%202023-09-11%20at%202.21.38%20PM.png?alt=media&token=cfc70c88-4e1d-4d75-bdf0-78d16f907c86) 
+to illustrate this point.
+
+To capture the greatest benefits of transparency and on-chain risk and settlement, it was necessary for SpandeX to 
+calculate risk on every market update – a change in wallet balance, a change in mark price, time to expiration, etc. 
+can all factor into how a portfolio’s risk is margined by SpandeX. Any change in an input value would therefore update 
+the user's risk health as well as the health risk of the entire network (which is also transparent). 
+
+Every wallet in the network receives the same treatment - a drastic departure from the traditional world where not all 
+participants are given the same chance to procure discounts or rebates.

@@ -69,6 +69,7 @@
     {
       "group": "Dexterity",
       "pages": [
+        "dexterity/introduction",
         "dexterity/faucet",
         {
           "group": "Typescript SDK",
